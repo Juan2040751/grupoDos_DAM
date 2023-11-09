@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="16dp">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +15,6 @@
         android:background="@drawable/rounded_toolbar_background"
         app:theme="@style/toolbarTheme">
 
-        <!-- Tus ImageView y otros componentes aquí -->
         <ImageView
             android:id="@+id/starIcon"
             android:layout_width="wrap_content"
