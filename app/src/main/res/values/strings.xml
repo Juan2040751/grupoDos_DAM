@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">grupoDos_DAM</string>
+    <string name="app_name">Pico Botella</string>
+    <string name="tituloRetos">Retos</string>
+    <string name="add_reto">Adicionar Reto</string>
+    <string name="edit_reto">Editar Reto</string>
+    <string name="desc_reto">Descripción Reto</string>
+    <string name="save_reto">Guardar Reto</string>
 </resources>

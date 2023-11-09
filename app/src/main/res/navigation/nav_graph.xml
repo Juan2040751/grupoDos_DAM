@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeChallengesFragment">
+
+    <fragment
+        android:id="@+id/homeChallengesFragment"
+        android:name="com.example.grupodos_dam.view.fragment.HomeChallengesFragment"
+        android:label="fragment_home_Challenges"
+        tools:layout="@layout/fragment_home_challenges" >
+        <action
+            android:id="@+id/action_homeChallengesFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment" />
+        <action
+            android:id="@+id/action_homeChallengesFragment_to_ChallengeDetailsFragment"
+            app:destination="@id/ChallengeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addChallengeFragment"
+        android:name="com.example.grupodos_dam.view.fragment.AddChallengeFragment"
+        android:label="fragment_add_Challenge"
+        tools:layout="@layout/fragment_add_challenge" />
+    <fragment
+        android:id="@+id/ChallengeDetailsFragment"
+        android:name="com.example.grupodos_dam.view.fragment.ChallengeDetailsFragment"
+        android:label="fragment_Challenge_details"
+        tools:layout="@layout/fragment_challenge_details" >
+        <action
+            android:id="@+id/action_ChallengeDetailsFragment_to_ChallengeEditFragment"
+            app:destination="@id/ChallengeEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ChallengeEditFragment"
+        android:name="com.example.grupodos_dam.view.fragment.ChallengeEditFragment"
+        android:label="fragment_Challenge_edit"
+        tools:layout="@layout/fragment_challenge_edit" >
+        <action
+            android:id="@+id/action_ChallengeEditFragment_to_homeChallengesFragment"
+            app:destination="@id/homeChallengesFragment" />
+    </fragment>
+</navigation>
