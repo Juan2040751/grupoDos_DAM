@@ -1,44 +1,34 @@
 package com.example.grupodos_dam.view
 
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
-import android.widget.ImageView
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
-import kotlin.random.Random
+import com.example.grupodos_dam.view.fragment.HomePicobotellaFragment
+import com.example.grupodos_dam.view.fragment.SplashPicobotellaFragment
 
 
 class MainActivity : AppCompatActivity() {
-    var anguloActual: Float = 0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var botella: ImageView = findViewById (R.id.imgBottle);//pasar la imagen deseada
-        var rotacion: Float= botella.rotation
-        rotarImagen(botella);//al presionar el boton
+        // Mostrar el fragmento de inicio (SplashPicobotellaFragment)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, SplashPicobotellaFragment())
+            .commit()
+
+        // Espera 5 segundos y luego reemplaza el fragmento de inicio con el fragmento principal (HomeFragment)
+        Handler().postDelayed({
+            replaceFragment(HomePicobotellaFragment())
+        }, 5000) // 5000 milisegundos (5 segundos)
     }
 
-
-
-    private fun rotarImagen(botella: ImageView) {
-
-        val anguloInicio: Float = anguloActual
-        val anguloAleatorio: Float = Random.nextInt(360).toFloat()
-        val animation = RotateAnimation(
-            anguloInicio, anguloAleatorio,
-            RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-            RotateAnimation.RELATIVE_TO_SELF, 0.5f
-        )
-
-        animation.duration = 2000
-        animation.repeatCount = 0
-        anguloActual = (anguloInicio + anguloAleatorio)%360
-        botella.clearAnimation()
-        botella.setRotation(anguloActual)
-        botella.startAnimation(animation)
-
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
 
