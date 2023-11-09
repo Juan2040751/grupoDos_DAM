@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,14 +12,19 @@
         android:src="@drawable/bottle_animation"
         android:contentDescription="Splash Gif" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/titleTextView"
+        android:fontFamily="@font/cotane"
         android:text="pico botella"
-        android:textSize="24sp"
+        android:textSize="38sp"
         android:textColor="#FF3F00"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/gifImageView"
         android:layout_marginTop="16dp" />
+
 </RelativeLayout>
+
+

@@ -19,8 +19,8 @@
         app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/pngegg" />
 
-    <!-- Botón (GIF) -->
-    <Button
+    <!-- Botón (GIF) debería ser button?-->
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
