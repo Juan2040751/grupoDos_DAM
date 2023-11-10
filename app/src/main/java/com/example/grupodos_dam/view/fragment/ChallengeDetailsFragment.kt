@@ -34,16 +34,6 @@ class ChallengeDetailsFragment : Fragment() {
     }
 
     private fun settings() {
-        binding.btnDelete.setOnClickListener {
-            deleteChallenge()
-        }
-
-        binding.fbEdit.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable("dataChallenge", receivedChallenge)
-            findNavController().navigate(R.id.action_ChallengeDetailsFragment_to_ChallengeEditFragment, bundle)
-        }
-
 
     }
 

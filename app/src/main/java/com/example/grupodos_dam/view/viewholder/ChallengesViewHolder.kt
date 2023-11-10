@@ -13,11 +13,10 @@ class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavCon
 
     fun setItemChallenge(challenge: Challenge){
         bindingItem.tvDescription.text = challenge.description
-        bindingItem.cvInventory.setOnClickListener {
+        bindingItem.cvChallenges.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable("clave",challenge)
-            navController.navigate(R.id.action_homeChallengesFragment_to_ChallengeDetailsFragment,bundle)
+            navController.navigate(R.id.action_homeChallengesFragment_to_EditChallengeFragment,bundle)
         }
     }
-
 }
