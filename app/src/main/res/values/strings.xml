@@ -3,5 +3,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splash">pico botella</string>
     <string name="home">Presióname</string>
+    <string name="countdown"></string>
     <string name="botella">imagen botella</string>
 </resources>
