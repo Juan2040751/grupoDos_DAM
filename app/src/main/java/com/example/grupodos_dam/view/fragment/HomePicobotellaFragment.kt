@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
@@ -47,8 +48,47 @@ class HomePicobotellaFragment : Fragment() {
 
         // Iniciar la reproducción del sonido
         mp_background.start()
+        val starIcon: ImageView = view.findViewById(R.id.starIcon)
+        val audioUpIcon: ImageView = view.findViewById(R.id.audioUpIcon)
+        val controlIcon: ImageView = view.findViewById(R.id.controlIcon)
+        val addIcon: ImageView = view.findViewById(R.id.addIcon)
+        val shareIcon: ImageView = view.findViewById(R.id.shareIcon)
 
+                //Escuchas componentes toolbar
+        starIcon.setOnClickListener {
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                // Restaura la escala original después de la animación
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
 
+                Toast.makeText(getActivity(),"Click en estrella",Toast.LENGTH_SHORT).show();
+
+            }.start()
+        }
+
+        audioUpIcon.setOnClickListener {
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+                Toast.makeText(getActivity(),"Click en sonido",Toast.LENGTH_SHORT).show();
+
+            }.start()
+        }
+
+        controlIcon.setOnClickListener {
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+                Toast.makeText(getActivity(),"Click en control",Toast.LENGTH_SHORT).show();
+            }.start()
+        }
+
+        addIcon.setOnClickListener {
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+                Toast.makeText(getActivity(),"Click en añadir",Toast.LENGTH_SHORT).show();
+
+            }.start()
+        }
+
+        
         return view
     }
 
