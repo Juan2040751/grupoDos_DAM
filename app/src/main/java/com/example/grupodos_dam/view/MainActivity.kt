@@ -1,7 +1,9 @@
 package com.example.grupodos_dam.view
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
@@ -23,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed({
             replaceFragment(HomePicobotellaFragment())
         }, 5000) // 5000 milisegundos (5 segundos)
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            getWindow().setFlags(WindowManager.LayoutParams. FLAG_LAYOUT_NO_LIMITS,WindowManager. LayoutParams. FLAG_LAYOUT_NO_LIMITS);
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
