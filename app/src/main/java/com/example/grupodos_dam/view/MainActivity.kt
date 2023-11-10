@@ -1,17 +1,17 @@
 package com.example.grupodos_dam.view
 
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import com.example.grupodos_dam.view.fragment.HomePicobotellaFragment
 import com.example.grupodos_dam.view.fragment.SplashPicobotellaFragment
-
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,13 +22,15 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         // Espera 5 segundos y luego reemplaza el fragmento de inicio con el fragmento principal (HomeFragment)
-        Handler().postDelayed({
+        coroutineScope.launch {
+            delay(5000) // 5000 milisegundos (5 segundos)
             replaceFragment(HomePicobotellaFragment())
-        }, 5000) // 5000 milisegundos (5 segundos)
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            getWindow().setFlags(WindowManager.LayoutParams. FLAG_LAYOUT_NO_LIMITS,WindowManager. LayoutParams. FLAG_LAYOUT_NO_LIMITS);
         }
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -37,5 +39,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel() // Cancela la corutina cuando la actividad se destruye
+    }
 }
+
