@@ -1,8 +1,13 @@
 <resources>
-    <string name="app_name">grupoDos_DAM</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splash">pico botella</string>
     <string name="home">Presióname</string>
     <string name="countdown"></string>
     <string name="botella">imagen botella</string>
+    <string name="app_name">Pico Botella</string>
+    <string name="tituloRetos">Retos</string>
+    <string name="add_reto">Adicionar Reto</string>
+    <string name="edit_reto">Editar Reto</string>
+    <string name="desc_reto">Descripción Reto</string>
+    <string name="save_reto">Guardar Reto</string>
 </resources>
