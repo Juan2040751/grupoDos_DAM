@@ -11,15 +11,31 @@
         android:id="@+id/imgBottle"
         android:layout_width="238dp"
         android:layout_height="223dp"
-        app:layout_constraintBottom_toTopOf="@+id/gifButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/botella"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/pngegg"
-        android:contentDescription="@string/botella" />
+        app:srcCompat="@drawable/pngegg" />
+
 
     <!-- Botón (GIF) debería ser button?-->
+
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/countdown"
+        android:textColor="@color/orange"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBottle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgBottle"
+        app:layout_constraintVertical_bias="0.577" />
+
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifButton"
         android:layout_width="wrap_content"
