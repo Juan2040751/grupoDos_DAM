@@ -9,9 +9,12 @@ import com.example.grupodos_dam.R
 import android.widget.ImageView
 import android.view.animation.RotateAnimation
 import kotlin.random.Random
+import android.media.MediaPlayer
 
 class HomePicobotellaFragment : Fragment() {
     private var anguloActual: Float = 0f
+
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +29,16 @@ class HomePicobotellaFragment : Fragment() {
         gifButton.setOnClickListener {
             rotarImagen(botella)
         }
+
+        // Inicializar el MediaPlayer con el archivo de sonido
+        mediaPlayer = MediaPlayer.create(activity, R.raw.background_sound)
+
+        // Configurar el MediaPlayer para reproducir en bucle
+        mediaPlayer.isLooping = true
+
+        // Iniciar la reproducción del sonido
+        mediaPlayer.start()
+
 
         return view
     }
@@ -45,5 +58,13 @@ class HomePicobotellaFragment : Fragment() {
         botella.clearAnimation()
         botella.rotation = anguloActual
         botella.startAnimation(animation)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Detener y Liberar los recursos del MediaPlayer cuando el fragmento se destruye
+        mediaPlayer.stop()
+        mediaPlayer.release()
     }
 }

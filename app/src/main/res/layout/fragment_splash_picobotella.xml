@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/black">
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/bottle_animation"
-        android:contentDescription="Splash Gif" />
+        android:contentDescription="@string/splash" />
 
 
     <TextView
@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/titleTextView"
         android:fontFamily="@font/cotane"
-        android:text="pico botella"
+        android:text="@string/splash"
         android:textSize="38sp"
-        android:textColor="#FF3F00"
+        android:textColor="@color/orange"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/gifImageView"
         android:layout_marginTop="16dp" />
