@@ -18,4 +18,41 @@
         android:name="com.example.grupodos_dam.view.fragment.HomePicobotellaFragment"
         android:label="fragment_home_picobotella"
         tools:layout="@layout/fragment_home_picobotella" />
+
+    <fragment
+        android:id="@+id/homeChallengesFragment"
+        android:name="com.example.grupodos_dam.view.fragment.HomeChallengesFragment"
+        android:label="fragment_home_Challenges"
+        tools:layout="@layout/fragment_home_challenges" >
+        <action
+            android:id="@+id/action_homeChallengesFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment" />
+        <action
+            android:id="@+id/action_homeChallengesFragment_to_ChallengeDetailsFragment"
+            app:destination="@id/ChallengeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addChallengeFragment"
+        android:name="com.example.grupodos_dam.view.fragment.AddChallengeFragment"
+        android:label="fragment_add_Challenge"
+        tools:layout="@layout/fragment_add_challenge" />
+    <fragment
+        android:id="@+id/ChallengeDetailsFragment"
+        android:name="com.example.grupodos_dam.view.fragment.ChallengeDetailsFragment"
+        android:label="fragment_Challenge_details"
+        tools:layout="@layout/fragment_challenge_details" >
+        <action
+            android:id="@+id/action_ChallengeDetailsFragment_to_ChallengeEditFragment"
+            app:destination="@id/ChallengeEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ChallengeEditFragment"
+        android:name="com.example.grupodos_dam.view.fragment.ChallengeEditFragment"
+        android:label="fragment_Challenge_edit"
+        tools:layout="@layout/fragment_challenge_edit" >
+        <action
+            android:id="@+id/action_ChallengeEditFragment_to_homeChallengesFragment"
+            app:destination="@id/homeChallengesFragment" />
+    </fragment>
+    
 </navigation>
