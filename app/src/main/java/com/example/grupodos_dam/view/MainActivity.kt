@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         // Mostrar el fragmento de inicio (SplashPicobotellaFragment)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SplashPicobotellaFragment())
+            .replace(R.id.navigationContainer, SplashPicobotellaFragment())
             .commit()
 
         // Espera 5 segundos y luego reemplaza el fragmento de inicio con el fragmento principal (HomeFragment)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.navigationContainer, fragment)
             .commit()
     }
 
