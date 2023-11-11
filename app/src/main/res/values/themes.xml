@@ -6,16 +6,19 @@
     </style>
 
     <style name="Theme.GrupoDos_DAM" parent="Base.Theme.GrupoDos_DAM" >
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
+
 
     <style name="toolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:colorControlNormal">@color/white</item>
         <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="progressBarColor" parent="Base.Theme.GrupoDos_DAM">
+        <item name="colorAccent">#FF5722</item>
+        <item name="colorBackgroundFloating">#FF000000</item>
     </style>
 
 
