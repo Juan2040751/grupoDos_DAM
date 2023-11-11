@@ -3,16 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashPicobotellaFragment2">
-    <fragment
-        android:id="@+id/splashPicobotellaFragment2"
-        android:name="com.example.grupodos_dam.view.fragment.SplashPicobotellaFragment"
-        android:label="fragment_splash_picobotella"
-        tools:layout="@layout/fragment_splash_picobotella" >
-        <action
-            android:id="@+id/action_splashPicobotellaFragment2_to_homePicobotellaFragment2"
-            app:destination="@id/homePicobotellaFragment2" />
-    </fragment>
+    app:startDestination="@id/homePicobotellaFragment2">
+
     <fragment
         android:id="@+id/homePicobotellaFragment2"
         android:name="com.example.grupodos_dam.view.fragment.HomePicobotellaFragment"
@@ -31,6 +23,7 @@
             android:id="@+id/action_homeChallengesFragment_to_EditChallengeFragment"
             app:destination="@id/ChallengeEditFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/addChallengeFragment"
         android:name="com.example.grupodos_dam.view.fragment.AddChallengeFragment"
@@ -51,5 +44,5 @@
             android:id="@+id/action_ChallengeEditFragment_to_homeChallengesFragment"
             app:destination="@id/homeChallengesFragment" />
     </fragment>
-    
+
 </navigation>
