@@ -20,6 +20,7 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
+import android.net.Uri
 
 class HomePicobotellaFragment : Fragment() {
     private var anguloActual: Float = 0f
@@ -69,7 +70,11 @@ class HomePicobotellaFragment : Fragment() {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 // Restaura la escala original después de la animación
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                Toast.makeText(getActivity(),"Click en estrella",Toast.LENGTH_SHORT).show();
+
+                // Abre la URL en un navegador web
+                val url = "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
             }.start()
         }
 
