@@ -50,27 +50,30 @@ class HomePicobotellaFragment : Fragment() {
         // Iniciar la reproducción del sonido
         mp_background.start()
         val starIcon: ImageView = view.findViewById(R.id.starIcon)
-        val audioUpIcon: ImageView = view.findViewById(R.id.audioUpIcon)
+        val audioIcon: ImageView = view.findViewById(R.id.audioUpIcon)
         val controlIcon: ImageView = view.findViewById(R.id.controlIcon)
         val addIcon: ImageView = view.findViewById(R.id.addIcon)
         val shareIcon: ImageView = view.findViewById(R.id.shareIcon)
 
-                //Escuchas componentes toolbar
+        // Escuchas componentes toolbar
         starIcon.setOnClickListener {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 // Restaura la escala original después de la animación
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-
                 Toast.makeText(getActivity(),"Click en estrella",Toast.LENGTH_SHORT).show();
-
             }.start()
         }
 
-        audioUpIcon.setOnClickListener {
+        audioIcon.setOnClickListener {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                Toast.makeText(getActivity(),"Click en sonido",Toast.LENGTH_SHORT).show();
-
+                if (mp_background.isPlaying) {
+                    mp_background.pause()
+                    audioIcon.setImageResource(R.drawable.ic_volume_off)
+                } else {
+                    mp_background.start()
+                    audioIcon.setImageResource(R.drawable.ic_volume_up)
+                }
             }.start()
         }
 
