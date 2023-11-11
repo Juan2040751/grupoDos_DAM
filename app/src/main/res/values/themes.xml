@@ -18,5 +18,10 @@
         <item name="titleTextColor">@color/white</item>
     </style>
 
+    <style name="progressBarColor" parent="Base.Theme.GrupoDos_DAM">
+        <item name="colorAccent">#FF5722</item>
+        <item name="colorBackgroundFloating">#FF000000</item>
+    </style>
+
 
 </resources>

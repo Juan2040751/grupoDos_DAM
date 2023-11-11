@@ -81,4 +81,6 @@ dependencies {
     //GIF
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.20")
 
+
+
 }

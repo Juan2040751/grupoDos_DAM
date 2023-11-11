@@ -1,6 +1,7 @@
 package com.example.grupodos_dam.view.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,10 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
@@ -25,16 +29,18 @@ class HomePicobotellaFragment : Fragment() {
     private lateinit var tv_countdown: TextView
     private lateinit var gifButton: ImageView
     private lateinit var img_botella: ImageView
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home_picobotella, container, false)
-
         img_botella = view.findViewById(R.id.imgBottle)
         gifButton = view.findViewById(R.id.gifButton)
         tv_countdown = view.findViewById(R.id.tv_countdown)
+        progressBar = view.findViewById(R.id.progressBar)
         gifButton.setOnClickListener {
             rotarImagen(img_botella)
 
@@ -104,7 +110,7 @@ class HomePicobotellaFragment : Fragment() {
 
             }.start()
         }
-        
+
         return view
     }
 
@@ -132,14 +138,20 @@ class HomePicobotellaFragment : Fragment() {
 
             override fun onAnimationEnd(animation: Animation?) {
                 mp_spinning_bottle.pause()
+                progressBar.visibility = View.VISIBLE;
+                progressBar.isIndeterminate = false
+
+
                 object : CountDownTimer(4000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         tv_countdown.setText("" + millisUntilFinished / 1000)
+                        progressBar.incrementProgressBy(33)
                     }
 
                     override fun onFinish() {
                         tv_countdown.setText("")
                         gifButton.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
                         //aqui inicia PB-12
                     }
                 }.start()
