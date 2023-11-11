@@ -32,7 +32,8 @@ class HomePicobotellaFragment : Fragment() {
     private lateinit var presionameTextView: TextView
     private lateinit var img_botella: ImageView
     private lateinit var progressBar: ProgressBar
-
+    private var sound_background_play: Boolean = true
+    private var sound_bottle_play: Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,6 +81,7 @@ class HomePicobotellaFragment : Fragment() {
         audioIcon.setOnClickListener {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+                sound_background_play = !mp_background.isPlaying
                 if (mp_background.isPlaying) {
                     mp_background.pause()
                     audioIcon.setImageResource(R.drawable.ic_volume_off)
@@ -128,6 +130,7 @@ class HomePicobotellaFragment : Fragment() {
         gifButton.visibility = View.GONE
         presionameTextView.visibility = View.INVISIBLE
         mp_background.pause()
+
         val anguloInicio: Float = anguloActual
         val anguloAleatorio: Float = Random.nextInt(3600).toFloat()
         val animation = RotateAnimation(
@@ -145,13 +148,14 @@ class HomePicobotellaFragment : Fragment() {
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {
                 mp_spinning_bottle.start()
+                sound_bottle_play = true
             }
 
             override fun onAnimationEnd(animation: Animation?) {
                 mp_spinning_bottle.pause()
                 progressBar.visibility = View.VISIBLE;
                 progressBar.isIndeterminate = false
-
+                sound_bottle_play = false
 
                 object : CountDownTimer(4000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
@@ -177,10 +181,25 @@ class HomePicobotellaFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (sound_background_play){
+            mp_background.start()
+        }
+        if (sound_bottle_play){
+            mp_spinning_bottle.start()
+        }
+    }
     override fun onStop() {
         super.onStop()
-        mp_spinning_bottle.pause()
-        mp_background.pause()// verificar logica
+
+        if (sound_background_play){
+            mp_background.pause()
+        }
+        if (sound_bottle_play){
+            mp_spinning_bottle.pause()
+        }
+
     }
 
     override fun onDestroy() {
