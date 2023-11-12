@@ -28,13 +28,13 @@ class ChallengesActivity : AppCompatActivity() {
     private fun settings(){
         supportFragmentManager.beginTransaction().replace(R.id.navigationChallengesContainer, HomeChallengesFragment()).commit()
 
-        setupToolbar()
+        //setupToolbar()
     }
 
-    private fun setupToolbar() {
+    /*private fun setupToolbar() {
         val toolbar = binding.challengesToolbar.challengesToolbar
         setSupportActionBar(toolbar)
         toolbar.title = "Retos"
 
-    }
+    }*/
 }
