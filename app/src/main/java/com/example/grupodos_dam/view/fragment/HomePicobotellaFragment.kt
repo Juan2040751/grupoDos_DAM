@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
 import android.net.Uri
+import com.example.grupodos_dam.view.ChallengesActivity
 
 class HomePicobotellaFragment : Fragment() {
     private var anguloActual: Float = 0f
@@ -103,6 +104,7 @@ class HomePicobotellaFragment : Fragment() {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
                 Toast.makeText(getActivity(),"Click en añadir",Toast.LENGTH_SHORT).show();
+                startActivity(Intent(this.context, ChallengesActivity::class.java))
 
             }.start()
         }
