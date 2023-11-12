@@ -14,7 +14,9 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundColor"
         tools:context=".view.ChallengesActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        >
 
 
         <include
