@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/grey"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="32dp">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/tituloInstrucciones"
+        android:onClick="onBackButtonClick"
+        android:src="@drawable/ic_back" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/cotane"
+        android:text="@string/tituloInstrucciones"
+        android:textColor="@color/orange"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
