@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancelar"
+            android:drawableTint="@color/orange"
             android:textColor="@android:color/darker_gray" />
 
         <Button
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="false"
+            android:drawableTint="@color/teal_500"
             android:text="Guardar"
             android:textColor="@android:color/darker_gray" />
     </LinearLayout>

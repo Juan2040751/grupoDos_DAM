@@ -1,5 +1,6 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
@@ -75,6 +76,8 @@ class HomeChallengesFragment : Fragment() {
     fun showAddChallengeDialog(navController: NavController) {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_add_challenge)
+
+        dialog.window?.setLayout(1000, 800)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.add_challenge_button_cancel)
