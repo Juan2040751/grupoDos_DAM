@@ -1,5 +1,6 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +13,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.grupodos_dam.R
@@ -31,46 +34,50 @@ class HomeChallengesFragment : Fragment() {
         binding.lifecycleOwner = this
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        settings()
-        observerViewModel()
+
+        val navController = Navigation.findNavController(view)
+
+        settings(navController)
+        observerViewModel(navController)
     }
 
-    private fun observerViewModel() {
-       observerListChallenges()
+    private fun observerViewModel(navController: NavController) {
+       observerListChallenges(navController)
     }
 
-    private fun observerListChallenges() {
+    private fun observerListChallenges(navController: NavController) {
+
         challengesViewModel.getListChallenges()
         challengesViewModel.listChallenges.observe(viewLifecycleOwner){ listaChallenges->
             val recycler = binding.recyclerview
             val layoutManager = LinearLayoutManager(context)
             recycler.layoutManager = layoutManager
-            val adapter = ChallengesAdapter(listaChallenges, findNavController())
+            val adapter = ChallengesAdapter(listaChallenges, navController)
             recycler.adapter = adapter
             adapter.notifyDataSetChanged()
         }
 
     }
 
-    private fun settings() {
+    private fun settings(navController: NavController) {
         binding.fbagregar.setOnClickListener {
             //findNavController().navigate(R.id.action_homeChallengesFragment_to_addChallengeFragment)
-            showAddChallengeDialog()
+            showAddChallengeDialog(navController)
         }
 
         //binding.challengesBack.setOnClickListener{
             //findNavController().navigate(R.id.action_homeChallengesFragment_to_homePicobotellaFragment2)
             //findNavController().popBackStack()
-            //startActivity(Intent(this.context, MainActivity::class.java))
         //}
     }
 
-    fun showAddChallengeDialog() {
+    fun showAddChallengeDialog(navController: NavController) {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_add_challenge)
+
+        dialog.window?.setLayout(1000, 800)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.add_challenge_button_cancel)
@@ -105,7 +112,11 @@ class HomeChallengesFragment : Fragment() {
             }
 
             dialog.dismiss()
+
+            observerViewModel(navController)
+
         }
+
 
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
