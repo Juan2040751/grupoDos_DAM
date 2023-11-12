@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundColor"
         android:padding="20dp"
-        tools:context=".view.fragment.AddChallengeFragment">
+        tools:context=".view.fragment.EditChallengeFragment">
 
         <TextView
             android:id="@+id/tvDescriptionEdit"

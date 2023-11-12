@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange">#FF3800</color>
+    <color name="grey">#424242</color>
     <color name="backgroundColor">#3A3C3D</color>
     <color name="backgroundColorItem">#e7e0eb</color>
     <color name="backgroudColorBtn">#009688</color>
