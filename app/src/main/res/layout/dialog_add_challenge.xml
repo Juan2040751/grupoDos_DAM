@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/add_challenge_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_reto"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"/>
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="Escriba el reto"
+        android:textColor="@color/black"
         android:textColorHint="@android:color/darker_gray"
         android:backgroundTint="@color/orange"
         />
@@ -46,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="false"
-            android:text="Guardar"  />
+            android:text="Guardar"
+            android:textColor="@android:color/background_light"/>
     </LinearLayout>
 </LinearLayout>
