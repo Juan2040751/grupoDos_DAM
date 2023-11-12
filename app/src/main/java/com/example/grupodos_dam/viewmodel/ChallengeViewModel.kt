@@ -41,4 +41,10 @@ class ChallengesViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
+    fun getRandomChallenge(){
+        viewModelScope.launch {
+            challengesRepository.getRandomChallenge()
+        }
+    }
+
 }

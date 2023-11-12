@@ -16,7 +16,7 @@ class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavCon
         bindingItem.cvChallenges.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable("clave",challenge)
-            navController.navigate(R.id.action_homeChallengesFragment_to_EditChallengeFragment,bundle)
+            //navController.navigate(R.id.action_homeChallengesFragment_to_EditChallengeFragment,bundle)
         }
     }
 }
