@@ -12,7 +12,7 @@ import com.example.grupodos_dam.model.Challenge
 interface ChallengesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveChallenge(challenge: Challenge)
-    @Query("SELECT * FROM Challenge")
+    @Query("SELECT * FROM Challenge ORDER BY id DESC")
     suspend fun getListChallenges(): MutableList<Challenge>
     @Delete
     suspend fun deleteChallenge(challenge: Challenge)
