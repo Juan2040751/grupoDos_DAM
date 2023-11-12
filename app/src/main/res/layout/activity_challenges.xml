@@ -21,7 +21,7 @@
 
         <include
             android:id="@+id/challengesToolbar"
-            layout="@layout/challenges_toolbar" />
+            layout="@layout/toolbar_challenges" />
 
         <!--<androidx.fragment.app.FragmentContainerView
             android:id="@+id/navigationChallengesContainer"

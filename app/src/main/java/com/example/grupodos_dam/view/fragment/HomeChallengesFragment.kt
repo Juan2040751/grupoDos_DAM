@@ -77,7 +77,7 @@ class HomeChallengesFragment : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_add_challenge)
 
-        dialog.window?.setLayout(1000, 800)
+        dialog.window?.setLayout(1000, 600)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.add_challenge_button_cancel)
