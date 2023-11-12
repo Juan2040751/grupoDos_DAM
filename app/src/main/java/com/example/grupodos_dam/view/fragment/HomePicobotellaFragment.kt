@@ -21,9 +21,17 @@ import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
 import android.net.Uri
+import androidx.databinding.DataBindingUtil
 import com.example.grupodos_dam.view.ChallengesActivity
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
+
 
 class HomePicobotellaFragment : Fragment() {
+    private lateinit var binding: FragmentHomePicobotellaBinding
+    private lateinit var navController: NavController
+
     private var anguloActual: Float = 0f
 
     private lateinit var mp_background: MediaPlayer
@@ -39,8 +47,11 @@ class HomePicobotellaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_picobotella, container, false)
+        navController = Navigation.findNavController(requireActivity(), R.id.navigationContainer)
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home_picobotella, container, false)
+        //val view = inflater.inflate(R.layout.fragment_home_picobotella, container, false)
+        val view = binding.root
         img_botella = view.findViewById(R.id.imgBottle)
         gifButton = view.findViewById(R.id.gifButton)
         tv_countdown = view.findViewById(R.id.tv_countdown)
@@ -62,7 +73,8 @@ class HomePicobotellaFragment : Fragment() {
         mp_background.start()
         val starIcon: ImageView = view.findViewById(R.id.starIcon)
         val audioIcon: ImageView = view.findViewById(R.id.audioUpIcon)
-        val controlIcon: ImageView = view.findViewById(R.id.controlIcon)
+        //val controlIcon: ImageView = view.findViewById(R.id.controlIcon)
+        val controlIcon: ImageView = binding.root.findViewById(R.id.controlIcon)
         val addIcon: ImageView = view.findViewById(R.id.addIcon)
         val shareIcon: ImageView = view.findViewById(R.id.shareIcon)
 
@@ -94,9 +106,15 @@ class HomePicobotellaFragment : Fragment() {
         }
 
         controlIcon.setOnClickListener {
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            /*it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
                 Toast.makeText(getActivity(),"Click en control",Toast.LENGTH_SHORT).show();
+            }.start()*/
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+
+                // Navegar de regreso a HomePicobotellaFragment
+                navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
             }.start()
         }
 
