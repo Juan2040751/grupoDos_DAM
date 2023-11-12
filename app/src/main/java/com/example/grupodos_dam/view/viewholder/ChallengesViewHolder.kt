@@ -1,6 +1,7 @@
 package com.example.grupodos_dam.view.viewholder
 
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grupodos_dam.R
@@ -18,5 +19,6 @@ class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavCon
             bundle.putSerializable("clave",challenge)
             //navController.navigate(R.id.action_homeChallengesFragment_to_EditChallengeFragment,bundle)
         }
+        bindingItem.cvChallenges.startAnimation(AnimationUtils.loadAnimation(bindingItem.cvChallenges.context,R.anim.scale_challenge))
     }
 }

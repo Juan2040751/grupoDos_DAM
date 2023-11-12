@@ -86,6 +86,14 @@ class HomeChallengesFragment : Fragment() {
         editTextChallenge.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 buttonAdd.isEnabled = !s.isNullOrBlank()
+
+                if(s.isNullOrBlank()){
+                    buttonAdd.setBackgroundColor(resources.getColor(R.color.grey))
+                }
+                else{
+                    buttonAdd.setBackgroundColor(resources.getColor(R.color.orange))
+                }
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
