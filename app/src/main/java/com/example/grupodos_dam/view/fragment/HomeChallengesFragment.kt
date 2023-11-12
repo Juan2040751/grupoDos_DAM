@@ -31,7 +31,7 @@ class HomeChallengesFragment : Fragment() {
         binding.lifecycleOwner = this
         return binding.root
     }
-
+0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settings()

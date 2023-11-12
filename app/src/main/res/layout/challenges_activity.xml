@@ -21,7 +21,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navigationContainer"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:name="com.example.grupodos_dam.view.fragment.HomeChallengesFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
@@ -31,7 +31,8 @@
             app:layout_constraintStart_toEndOf="@id/challengesToolbar"
             app:layout_constraintTop_toBottomOf="@+id/challengesToolbar"
             app:layout_constraintVertical_bias="0.0"
-            app:navGraph="@navigation/challenges_graph" />
+
+            />
 
     </LinearLayout>
 
