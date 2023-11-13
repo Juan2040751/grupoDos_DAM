@@ -1,7 +1,9 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -11,27 +13,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
 import android.net.Uri
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Build
 import android.widget.Button
-import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
+import com.bumptech.glide.Glide
+import com.example.grupodos_dam.webservice.Pokemon
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 class HomePicobotellaFragment : Fragment() {
     private var anguloActual: Float = 0f
@@ -46,6 +47,13 @@ class HomePicobotellaFragment : Fragment() {
     private var sound_background_play: Boolean = true
     private var sound_bottle_play: Boolean = false
     private val challengesViewModel: ChallengesViewModel by viewModels()
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted->
+            if(!isGranted){
+                Toast.makeText(context,"Necesitas aceptar los Permisos",Toast.LENGTH_SHORT).show()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -140,10 +148,15 @@ class HomePicobotellaFragment : Fragment() {
 
         //Para refrescar el reto aleatorio
         challengesViewModel.getRandomChallenge()
+        challengesViewModel.getRandomPokemon()
 
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        permisos()
+    }
     private fun rotarImagen(botella: ImageView) {
         gifButton.visibility = View.GONE
         presionameTextView.visibility = View.INVISIBLE
@@ -221,7 +234,6 @@ class HomePicobotellaFragment : Fragment() {
         }
 
     }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -229,28 +241,71 @@ class HomePicobotellaFragment : Fragment() {
         mp_background.stop()
         mp_background.release()
     }
+    private fun permisos() {
+        solicitudPermisoInternet()
+    }
+    private fun solicitudPermisoInternet(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            when{
+                //Todo:Cuando ya se ha aceptado el permiso
+                ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.INTERNET
+                )== PackageManager.PERMISSION_GRANTED ->{
+                }
 
+                //Todo: Cuando se pide el permiso y se rechaza
+                shouldShowRequestPermissionRationale(android.Manifest.permission.INTERNET) ->{
+                    AlertDialog.Builder(context)
+                        .setTitle("Permisos de Internet")
+                        .setMessage("Acepta los permisos")
+                        .setPositiveButton("SI"){_,_ ->
+                            requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                        }
+                        .setNegativeButton("No"){ _, _ -> }.show()
+                }
+                else ->{
+                    //todo: cuando se entra a la camara por primera vez
+                    requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                }
+            }
+        }
+    }
     fun showRandomChallengeDialog() {
 
         challengesViewModel.getRandomChallenge()
+        challengesViewModel.getRandomPokemon()
 
         val challenge:Challenge? = challengesViewModel.randomChallenge.value
+
+        val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
 
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_random_challenge)
 
-        dialog.window?.setLayout(1000, 1050)
+        dialog.window?.setLayout(1100, 1050)
 
         val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
         constraintLayout.setBackgroundColor(Color.TRANSPARENT)
 
         val tvRandomChallenge = dialog.findViewById<TextView>(R.id.tv_random_challenge)
+        val ivRandomPokemon = dialog.findViewById<ImageView>(R.id.iv_random_pokemon)
         val buttonCerrar = dialog.findViewById<Button>(R.id.btn_close_random_challenge)
 
 
         if (challenge != null) {
             tvRandomChallenge.text = challenge.description
         }
+
+        Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
+
+        //GlobalScope.launch(Dispatchers.Main) {
+        //    val poke = ApiUtils.getRandomPokemon()
+        //    if (poke != null) {
+        //        Glide.with(requireActivity())
+        //            .load(poke)
+        //            .into(ivRandomPokemon)
+        //    } else {
+        //    }
+        //}
 
         buttonCerrar.setOnClickListener {
             dialog.dismiss()
