@@ -321,11 +321,15 @@ class HomePicobotellaFragment : Fragment() {
 
         val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
 
+        //GlobalScope.launch(Dispatchers.Main) {
+        //    pokemon = ApiUtils.getRandomPokemon()
+        //}
+
 
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_random_challenge)
 
-        dialog.window?.setLayout(1100, 1050)
+        dialog.window?.setLayout(1100, 1200)
 
         val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
         constraintLayout.setBackgroundColor(Color.TRANSPARENT)
@@ -339,24 +343,12 @@ class HomePicobotellaFragment : Fragment() {
             tvRandomChallenge.text = challenge.description
         }
 
-        //Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val pokemon = ApiUtils.getRandomPokemon()
-
-            if (pokemon != null) {
-                Toast.makeText(context, pokemon.name, Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(context, "No hay pokemones disponibles", Toast.LENGTH_SHORT).show()
-            }
-
-            if (pokemon != null) {
-                Glide.with(requireActivity())
-                    .load(pokemon.img)
-                    .into(ivRandomPokemon)
-            } else {
-            }
+        if (pokemon != null) {
+            Toast.makeText(context, pokemon.name, Toast.LENGTH_SHORT).show()
+            Glide.with(requireActivity()).load(pokemon.img).into(ivRandomPokemon)
+        }
+        else{
+            Toast.makeText(context, "No hay pokemones disponibles", Toast.LENGTH_SHORT).show()
         }
 
         buttonCerrar.setOnClickListener {
