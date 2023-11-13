@@ -164,6 +164,7 @@ class HomePicobotellaFragment : Fragment() {
 
             // Navegar de regreso a HomePicobotellaFragment
             navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
+
         }.start()
     }
 
@@ -240,7 +241,6 @@ class HomePicobotellaFragment : Fragment() {
                         gifButton.visibility = View.VISIBLE
                         presionameTextView.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
-                        //aqui inicia PB-12
                         showRandomChallengeDialog()
 
                     }
@@ -353,6 +353,10 @@ class HomePicobotellaFragment : Fragment() {
 
         buttonCerrar.setOnClickListener {
             dialog.dismiss()
+            if (sound_background_play) {
+                mp_background.start()
+            }
+
         }
 
         dialog.setCanceledOnTouchOutside(false)
