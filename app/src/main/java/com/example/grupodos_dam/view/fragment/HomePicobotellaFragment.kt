@@ -164,6 +164,7 @@ class HomePicobotellaFragment : Fragment() {
 
             // Navegar de regreso a HomePicobotellaFragment
             navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
+
         }.start()
     }
 

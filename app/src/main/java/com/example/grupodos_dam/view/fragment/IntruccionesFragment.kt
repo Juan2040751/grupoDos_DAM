@@ -32,7 +32,8 @@ class IntruccionesFragment : Fragment() {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
 
                 // Navegar de regreso a HomePicobotellaFragment
-                navController.navigate(R.id.action_intruccionesFragment_to_homePicobotellaFragment2)
+                //navController.navigate(R.id.action_intruccionesFragment_to_homePicobotellaFragment2)
+                activity?.onBackPressedDispatcher?.onBackPressed()
             }.start()
         }
 

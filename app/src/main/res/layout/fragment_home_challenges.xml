@@ -13,12 +13,11 @@
         android:background="@color/backgroundColor"
         tools:context=".view.fragment.HomeChallengesFragment"
         android:orientation="vertical"
-        android:paddingTop="25dp"
         >
 
         <include
-            android:id="@+id/challengesToolbar"
-            layout="@layout/challenges_toolbar" />
+            android:id="@+id/toolbarChallenges"
+            layout="@layout/toolbar_challenges" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
