@@ -12,12 +12,16 @@ class ApiUtils {
             val apiService = getApiService()
             try {
                 val response = apiService.getPokemonList()
-                if (!response.pokemon.isEmpty()) {
-                    return response.pokemon.random()
+
+                if (response.pokemonList != null && !response.pokemonList.isEmpty()) {
+                    return response.pokemonList.random()
                 }
             } catch (e: Exception) {
                 // Handle the exception
                 e.printStackTrace()
+
+                println("Error randomPokemon")
+                println(e.message)
             }
             return null
         }

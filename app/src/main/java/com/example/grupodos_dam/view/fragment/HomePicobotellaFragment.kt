@@ -26,21 +26,21 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
-import com.example.grupodos_dam.view.ChallengesActivity
 import kotlin.random.Random
-import kotlin.random.Random
-import android.net.Uri
 import android.os.Build
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 import com.bumptech.glide.Glide
 import com.example.grupodos_dam.webservice.Pokemon
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.example.grupodos_dam.webservice.ApiUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomePicobotellaFragment : Fragment() {
     private lateinit var binding: FragmentHomePicobotellaBinding
@@ -170,8 +170,8 @@ class HomePicobotellaFragment : Fragment() {
     private fun addIcon_handle(it: View) {
         it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
             it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-            startActivity(Intent(this.context, ChallengesActivity::class.java))
-
+            //startActivity(Intent(this.context, ChallengesActivity::class.java))
+            navController.navigate(R.id.action_homePicobotellaFragment2_to_homeChallengesFragment)
         }.start()
     }
     private fun shareIcon_handle(it: View) {
@@ -321,6 +321,7 @@ class HomePicobotellaFragment : Fragment() {
 
         val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
 
+
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_random_challenge)
 
@@ -338,17 +339,25 @@ class HomePicobotellaFragment : Fragment() {
             tvRandomChallenge.text = challenge.description
         }
 
-        Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
+        //Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
 
-        //GlobalScope.launch(Dispatchers.Main) {
-        //    val poke = ApiUtils.getRandomPokemon()
-        //    if (poke != null) {
-        //        Glide.with(requireActivity())
-        //            .load(poke)
-        //            .into(ivRandomPokemon)
-        //    } else {
-        //    }
-        //}
+        GlobalScope.launch(Dispatchers.Main) {
+            val pokemon = ApiUtils.getRandomPokemon()
+
+            if (pokemon != null) {
+                Toast.makeText(context, pokemon.name, Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context, "No hay pokemones disponibles", Toast.LENGTH_SHORT).show()
+            }
+
+            if (pokemon != null) {
+                Glide.with(requireActivity())
+                    .load(pokemon.img)
+                    .into(ivRandomPokemon)
+            } else {
+            }
+        }
 
         buttonCerrar.setOnClickListener {
             dialog.dismiss()
