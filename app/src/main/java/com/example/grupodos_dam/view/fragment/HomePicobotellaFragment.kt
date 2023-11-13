@@ -1,6 +1,10 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +20,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -23,7 +28,19 @@ import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
 import com.example.grupodos_dam.view.ChallengesActivity
 import kotlin.random.Random
-
+import kotlin.random.Random
+import android.net.Uri
+import android.os.Build
+import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.grupodos_dam.model.Challenge
+import com.example.grupodos_dam.viewmodel.ChallengesViewModel
+import com.bumptech.glide.Glide
+import com.example.grupodos_dam.webservice.Pokemon
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 class HomePicobotellaFragment : Fragment() {
     private lateinit var binding: FragmentHomePicobotellaBinding
@@ -40,6 +57,15 @@ class HomePicobotellaFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private var sound_background_play: Boolean = true
     private var sound_bottle_play: Boolean = false
+    private val challengesViewModel: ChallengesViewModel by viewModels()
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted->
+            if(!isGranted){
+                Toast.makeText(context,"Necesitas aceptar los Permisos",Toast.LENGTH_SHORT).show()
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,6 +125,10 @@ class HomePicobotellaFragment : Fragment() {
             shareIcon_handle(it)
         }
 
+        //Para refrescar el reto aleatorio
+        challengesViewModel.getRandomChallenge()
+        challengesViewModel.getRandomPokemon()
+
         return view
     }
     private fun starIcon_handle(it: View) {
@@ -128,8 +158,6 @@ class HomePicobotellaFragment : Fragment() {
         }.start()
     }
 
-
-
     private fun controlIcon_handle(it: View) {
         it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
             it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
@@ -138,6 +166,7 @@ class HomePicobotellaFragment : Fragment() {
             navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
         }.start()
     }
+
     private fun addIcon_handle(it: View) {
         it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
             it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
@@ -164,7 +193,10 @@ class HomePicobotellaFragment : Fragment() {
         }.start()
     }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        permisos()
+    }
 
     private fun rotarImagen(botella: ImageView) {
         gifButton.visibility = View.GONE
@@ -209,6 +241,8 @@ class HomePicobotellaFragment : Fragment() {
                         presionameTextView.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                         //aqui inicia PB-12
+                        showRandomChallengeDialog()
+
                     }
                 }.start()
             }
@@ -217,8 +251,6 @@ class HomePicobotellaFragment : Fragment() {
             }
         })
         botella.startAnimation(animation)
-
-
     }
 
     override fun onResume() {
@@ -242,7 +274,6 @@ class HomePicobotellaFragment : Fragment() {
         }
 
     }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -250,4 +281,81 @@ class HomePicobotellaFragment : Fragment() {
         mp_background.stop()
         mp_background.release()
     }
+
+    private fun permisos() {
+        solicitudPermisoInternet()
+    }
+
+    private fun solicitudPermisoInternet(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            when{
+                //Todo:Cuando ya se ha aceptado el permiso
+                ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.INTERNET
+                )== PackageManager.PERMISSION_GRANTED ->{
+                }
+
+                //Todo: Cuando se pide el permiso y se rechaza
+                shouldShowRequestPermissionRationale(android.Manifest.permission.INTERNET) ->{
+                    AlertDialog.Builder(context)
+                        .setTitle("Permisos de Internet")
+                        .setMessage("Acepta los permisos")
+                        .setPositiveButton("SI"){_,_ ->
+                            requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                        }
+                        .setNegativeButton("No"){ _, _ -> }.show()
+                }
+                else ->{
+                    //todo: cuando se entra a la camara por primera vez
+                    requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                }
+            }
+        }
+    }
+    
+    fun showRandomChallengeDialog() {
+
+        challengesViewModel.getRandomChallenge()
+        challengesViewModel.getRandomPokemon()
+
+        val challenge:Challenge? = challengesViewModel.randomChallenge.value
+
+        val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
+
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_random_challenge)
+
+        dialog.window?.setLayout(1100, 1050)
+
+        val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
+        constraintLayout.setBackgroundColor(Color.TRANSPARENT)
+
+        val tvRandomChallenge = dialog.findViewById<TextView>(R.id.tv_random_challenge)
+        val ivRandomPokemon = dialog.findViewById<ImageView>(R.id.iv_random_pokemon)
+        val buttonCerrar = dialog.findViewById<Button>(R.id.btn_close_random_challenge)
+
+
+        if (challenge != null) {
+            tvRandomChallenge.text = challenge.description
+        }
+
+        Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
+
+        //GlobalScope.launch(Dispatchers.Main) {
+        //    val poke = ApiUtils.getRandomPokemon()
+        //    if (poke != null) {
+        //        Glide.with(requireActivity())
+        //            .load(poke)
+        //            .into(ivRandomPokemon)
+        //    } else {
+        //    }
+        //}
+
+        buttonCerrar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+
 }

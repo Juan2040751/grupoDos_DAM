@@ -22,6 +22,7 @@ import com.example.grupodos_dam.databinding.FragmentHomeChallengesBinding
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.view.adapter.ChallengesAdapter
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
+import androidx.appcompat.app.AppCompatActivity
 
 class HomeChallengesFragment : Fragment() {
     private lateinit var binding: FragmentHomeChallengesBinding
@@ -67,10 +68,19 @@ class HomeChallengesFragment : Fragment() {
             showAddChallengeDialog(navController)
         }
 
+        setupToolbar()
+
         //binding.challengesBack.setOnClickListener{
             //findNavController().navigate(R.id.action_homeChallengesFragment_to_homePicobotellaFragment2)
             //findNavController().popBackStack()
         //}
+    }
+
+    private fun setupToolbar() {
+        val toolbar = binding.challengesToolbar.challengesToolbar
+        //setSupportActionBar(toolbar)
+        toolbar.title = "Retos"
+
     }
 
     fun showAddChallengeDialog(navController: NavController) {
