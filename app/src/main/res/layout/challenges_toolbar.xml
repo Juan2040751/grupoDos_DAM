@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        tools:context=".view.ChallengesActivity">
+        tools:context=".view.fragment.HomeChallengesFragment">
 
         <!-- Agrega un AppBarLayout para la Toolbar -->
         <com.google.android.material.appbar.AppBarLayout
@@ -23,7 +23,8 @@
                 app:navigationIcon="@drawable/ic_back"
                 app:title="@string/tituloRetos"
                 app:titleTextColor="@color/orange"
-                app:theme="@style/toolbarTheme">
+                app:theme="@style/toolbarTheme"
+                android:layout_gravity="center">
 
             </androidx.appcompat.widget.Toolbar>
 

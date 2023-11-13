@@ -1,5 +1,6 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -21,7 +22,16 @@ import androidx.fragment.app.Fragment
 import com.example.grupodos_dam.R
 import kotlin.random.Random
 import android.net.Uri
-import com.example.grupodos_dam.view.ChallengesActivity
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.Button
+import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.example.grupodos_dam.model.Challenge
+import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 
 class HomePicobotellaFragment : Fragment() {
     private var anguloActual: Float = 0f
@@ -35,6 +45,8 @@ class HomePicobotellaFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private var sound_background_play: Boolean = true
     private var sound_bottle_play: Boolean = false
+    private val challengesViewModel: ChallengesViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,8 +115,9 @@ class HomePicobotellaFragment : Fragment() {
         addIcon.setOnClickListener {
             it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                Toast.makeText(getActivity(),"Click en añadir",Toast.LENGTH_SHORT).show();
-                startActivity(Intent(this.context, ChallengesActivity::class.java))
+                //Toast.makeText(getActivity(),"Click en añadir",Toast.LENGTH_SHORT).show();
+                //startActivity(Intent(this.context, ChallengesActivity::class.java))
+                findNavController().navigate(R.id.action_homePicobotellaFragment2_to_homeChallengesFragment)
 
             }.start()
         }
@@ -124,6 +137,9 @@ class HomePicobotellaFragment : Fragment() {
 
             }.start()
         }
+
+        //Para refrescar el reto aleatorio
+        challengesViewModel.getRandomChallenge()
 
         return view
     }
@@ -171,6 +187,8 @@ class HomePicobotellaFragment : Fragment() {
                         presionameTextView.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                         //aqui inicia PB-12
+                        showRandomChallengeDialog()
+
                     }
                 }.start()
             }
@@ -211,4 +229,35 @@ class HomePicobotellaFragment : Fragment() {
         mp_background.stop()
         mp_background.release()
     }
+
+    fun showRandomChallengeDialog() {
+
+        challengesViewModel.getRandomChallenge()
+
+        val challenge:Challenge? = challengesViewModel.randomChallenge.value
+
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_random_challenge)
+
+        dialog.window?.setLayout(1000, 1050)
+
+        val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
+        constraintLayout.setBackgroundColor(Color.TRANSPARENT)
+
+        val tvRandomChallenge = dialog.findViewById<TextView>(R.id.tv_random_challenge)
+        val buttonCerrar = dialog.findViewById<Button>(R.id.btn_close_random_challenge)
+
+
+        if (challenge != null) {
+            tvRandomChallenge.text = challenge.description
+        }
+
+        buttonCerrar.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+
 }

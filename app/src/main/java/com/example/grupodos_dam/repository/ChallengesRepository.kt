@@ -1,6 +1,8 @@
 package com.example.grupodos_dam.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.grupodos_dam.data.ChallengesDB
 import com.example.grupodos_dam.data.ChallengesDao
 import com.example.grupodos_dam.model.Challenge
@@ -31,11 +33,16 @@ class ChallengesRepository (val context: Context){
             challengesDao.updateChallenge(challenge)
         }
     }
-    suspend fun getRandomChallenge():Challenge{
-        return withContext(Dispatchers.IO){
-            challengesDao.getListChallenges().random()
+    suspend fun getRandomChallenge(): MutableLiveData<Challenge> {
+        val challenges = challengesDao.getListChallenges()
+
+        val randomChallenge = if (challenges != null && challenges.isNotEmpty()) {
+            challenges.random()
+        } else {
+            Challenge(0, "No hay retos aún")
         }
+
+        return MutableLiveData(randomChallenge)
+
     }
-
-
 }
