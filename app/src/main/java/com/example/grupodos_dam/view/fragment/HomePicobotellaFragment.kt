@@ -331,9 +331,8 @@ class HomePicobotellaFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_random_challenge)
 
         dialog.window?.setLayout(1100, 1200)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
-        constraintLayout.setBackgroundColor(Color.TRANSPARENT)
 
         val tvRandomChallenge = dialog.findViewById<TextView>(R.id.tv_random_challenge)
         val ivRandomPokemon = dialog.findViewById<ImageView>(R.id.iv_random_pokemon)
