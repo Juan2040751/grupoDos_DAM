@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.example.grupodos_dam.R
@@ -32,9 +33,13 @@ class IntruccionesFragment : Fragment() {
                 it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
 
                 // Navegar de regreso a HomePicobotellaFragment
-                navController.navigate(R.id.action_intruccionesFragment_to_homePicobotellaFragment2)
+                //navController.navigate(R.id.action_intruccionesFragment_to_homePicobotellaFragment2)
+                activity?.onBackPressedDispatcher?.onBackPressed()
             }.start()
         }
+        binding.description1.startAnimation(AnimationUtils.loadAnimation(binding.description1.context, R.anim.scale_text_instrucciones))
+        binding.description2.startAnimation(AnimationUtils.loadAnimation(binding.description2.context, R.anim.scale_text_instrucciones))
+        binding.winningAnimation.startAnimation(AnimationUtils.loadAnimation(binding.winningAnimation.context, R.anim.scale_challenge))
 
         return binding.root
     }

@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homePicobotellaFragment2_to_homeChallengesFragment"
             app:destination="@id/homeChallengesFragment"
+            app:enterAnim="@anim/in_instrucciones"
+            app:popEnterAnim="@anim/in_1_instrucciones"
+            app:popExitAnim="@anim/out_instrucciones"
             app:popUpTo="@id/homePicobotellaFragment2" />
     </fragment>
 
@@ -27,18 +30,10 @@
         android:id="@+id/homeChallengesFragment"
         android:name="com.example.grupodos_dam.view.fragment.HomeChallengesFragment"
         android:label="fragment_home_Challenges"
-        tools:layout="@layout/fragment_home_challenges" >
-        <action
-            android:id="@+id/action_homeChallengesFragment_to_homePicobotellaFragment2"
-            app:destination="@id/homePicobotellaFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_home_challenges" />
     <fragment
         android:id="@+id/intruccionesFragment"
         android:name="com.example.grupodos_dam.view.fragment.IntruccionesFragment"
-        android:label="IntruccionesFragment" >
-        <action
-            android:id="@+id/action_intruccionesFragment_to_homePicobotellaFragment2"
-            app:destination="@id/homePicobotellaFragment2" />
-    </fragment>
+        android:label="IntruccionesFragment" />
 
 </navigation>

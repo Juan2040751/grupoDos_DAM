@@ -11,7 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -77,9 +79,19 @@ class HomeChallengesFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        val toolbar = binding.challengesToolbar.challengesToolbar
-        //setSupportActionBar(toolbar)
-        toolbar.title = "Retos"
+
+        val backIcon: ImageView = binding.root.findViewById(R.id.backButton_challenges)
+
+        backIcon.setOnClickListener {
+            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+
+                // Navegar de regreso a HomePicobotellaFragment
+                //navController.navigate(R.id.action_intruccionesFragment_to_homePicobotellaFragment2)
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            }.start()
+        }
+
 
     }
 
@@ -87,7 +99,7 @@ class HomeChallengesFragment : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_add_challenge)
 
-        dialog.window?.setLayout(1000, 600)
+        dialog.window?.setLayout(1000, 1000)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.add_challenge_button_cancel)

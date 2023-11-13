@@ -1,5 +1,6 @@
 package com.example.grupodos_dam.view.fragment
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -26,21 +27,21 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
-import com.example.grupodos_dam.view.ChallengesActivity
 import kotlin.random.Random
-import kotlin.random.Random
-import android.net.Uri
 import android.os.Build
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 import com.bumptech.glide.Glide
 import com.example.grupodos_dam.webservice.Pokemon
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.example.grupodos_dam.webservice.ApiUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomePicobotellaFragment : Fragment() {
     private lateinit var binding: FragmentHomePicobotellaBinding
@@ -164,14 +165,15 @@ class HomePicobotellaFragment : Fragment() {
 
             // Navegar de regreso a HomePicobotellaFragment
             navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
+
         }.start()
     }
 
     private fun addIcon_handle(it: View) {
         it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
             it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-            startActivity(Intent(this.context, ChallengesActivity::class.java))
-
+            //startActivity(Intent(this.context, ChallengesActivity::class.java))
+            navController.navigate(R.id.action_homePicobotellaFragment2_to_homeChallengesFragment)
         }.start()
     }
     private fun shareIcon_handle(it: View) {
@@ -240,7 +242,6 @@ class HomePicobotellaFragment : Fragment() {
                         gifButton.visibility = View.VISIBLE
                         presionameTextView.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
-                        //aqui inicia PB-12
                         showRandomChallengeDialog()
 
                     }
@@ -290,23 +291,23 @@ class HomePicobotellaFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             when{
                 //Todo:Cuando ya se ha aceptado el permiso
-                ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.INTERNET
+                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.INTERNET
                 )== PackageManager.PERMISSION_GRANTED ->{
                 }
 
                 //Todo: Cuando se pide el permiso y se rechaza
-                shouldShowRequestPermissionRationale(android.Manifest.permission.INTERNET) ->{
+                shouldShowRequestPermissionRationale(Manifest.permission.INTERNET) ->{
                     AlertDialog.Builder(context)
                         .setTitle("Permisos de Internet")
                         .setMessage("Acepta los permisos")
                         .setPositiveButton("SI"){_,_ ->
-                            requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                            requestPermissionLauncher.launch(Manifest.permission.INTERNET)
                         }
                         .setNegativeButton("No"){ _, _ -> }.show()
                 }
                 else ->{
                     //todo: cuando se entra a la camara por primera vez
-                    requestPermissionLauncher.launch(android.Manifest.permission.INTERNET)
+                    requestPermissionLauncher.launch(Manifest.permission.INTERNET)
                 }
             }
         }
@@ -321,10 +322,15 @@ class HomePicobotellaFragment : Fragment() {
 
         val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
 
+        //GlobalScope.launch(Dispatchers.Main) {
+        //    pokemon = ApiUtils.getRandomPokemon()
+        //}
+
+
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_random_challenge)
 
-        dialog.window?.setLayout(1100, 1050)
+        dialog.window?.setLayout(1100, 1200)
 
         val constraintLayout = dialog.findViewById<ConstraintLayout>(R.id.clRandonChallenge)
         constraintLayout.setBackgroundColor(Color.TRANSPARENT)
@@ -338,20 +344,20 @@ class HomePicobotellaFragment : Fragment() {
             tvRandomChallenge.text = challenge.description
         }
 
-        Glide.with(requireActivity()).load(pokemon?.img).into(ivRandomPokemon)
-
-        //GlobalScope.launch(Dispatchers.Main) {
-        //    val poke = ApiUtils.getRandomPokemon()
-        //    if (poke != null) {
-        //        Glide.with(requireActivity())
-        //            .load(poke)
-        //            .into(ivRandomPokemon)
-        //    } else {
-        //    }
-        //}
+        if (pokemon != null) {
+            Toast.makeText(context, pokemon.name, Toast.LENGTH_SHORT).show()
+            Glide.with(requireActivity()).load(pokemon.img).into(ivRandomPokemon)
+        }
+        else{
+            Toast.makeText(context, "No hay pokemones disponibles", Toast.LENGTH_SHORT).show()
+        }
 
         buttonCerrar.setOnClickListener {
             dialog.dismiss()
+            if (sound_background_play) {
+                mp_background.start()
+            }
+
         }
 
         dialog.setCanceledOnTouchOutside(false)
