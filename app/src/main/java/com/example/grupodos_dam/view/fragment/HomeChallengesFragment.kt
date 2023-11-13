@@ -100,6 +100,7 @@ class HomeChallengesFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_add_challenge)
 
         dialog.window?.setLayout(1000, 1000)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.add_challenge_button_cancel)
