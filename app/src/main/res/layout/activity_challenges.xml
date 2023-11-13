@@ -15,7 +15,6 @@
         android:background="@color/backgroundColor"
         tools:context=".view.ChallengesActivity"
         android:orientation="vertical"
-        android:paddingTop="25dp"
         >
 
 

@@ -11,7 +11,8 @@
         android:layout_gravity="center_horizontal"
         android:background="@color/grey"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="25dp">
 
         <ImageView
             android:id="@+id/backButton"
@@ -20,7 +21,6 @@
             android:layout_marginStart="16dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/tituloInstrucciones"
-            android:onClick="onBackButtonClick"
             android:src="@drawable/ic_back" />
 
 

@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_home_picobotella" >
         <action
             android:id="@+id/action_homePicobotellaFragment2_to_intruccionesFragment"
-            app:destination="@id/intruccionesFragment" />
+            app:destination="@id/intruccionesFragment"
+            app:enterAnim="@anim/in_instrucciones"
+            app:popEnterAnim="@anim/in_1_instrucciones"
+            app:popExitAnim="@anim/out_instrucciones" />
     </fragment>
 
     <fragment

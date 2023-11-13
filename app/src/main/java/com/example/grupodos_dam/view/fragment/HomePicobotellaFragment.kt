@@ -1,8 +1,8 @@
 package com.example.grupodos_dam.view.fragment
 
 import android.content.Intent
-import android.graphics.Color
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -10,22 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.Toolbar
-import androidx.fragment.app.Fragment
-import com.example.grupodos_dam.R
-import kotlin.random.Random
-import android.net.Uri
 import androidx.databinding.DataBindingUtil
-import com.example.grupodos_dam.view.ChallengesActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
+import com.example.grupodos_dam.view.ChallengesActivity
+import kotlin.random.Random
 
 
 class HomePicobotellaFragment : Fragment() {
@@ -33,7 +30,7 @@ class HomePicobotellaFragment : Fragment() {
     private lateinit var navController: NavController
 
     private var anguloActual: Float = 0f
-
+    private lateinit var toolbar: Toolbar
     private lateinit var mp_background: MediaPlayer
     private lateinit var mp_spinning_bottle: MediaPlayer
     private lateinit var tv_countdown: TextView
@@ -47,11 +44,13 @@ class HomePicobotellaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_picobotella, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_home_picobotella, container, false)
         navController = Navigation.findNavController(requireActivity(), R.id.navigationContainer)
         // Inflate the layout for this fragment
         //val view = inflater.inflate(R.layout.fragment_home_picobotella, container, false)
         val view = binding.root
+
         img_botella = view.findViewById(R.id.imgBottle)
         gifButton = view.findViewById(R.id.gifButton)
         tv_countdown = view.findViewById(R.id.tv_countdown)
@@ -65,85 +64,107 @@ class HomePicobotellaFragment : Fragment() {
         // Inicializar el MediaPlayer con el archivo de sonido
         mp_background = MediaPlayer.create(activity, R.raw.background_sound)
         mp_spinning_bottle = MediaPlayer.create(activity, R.raw.spinning_bottle)
-
-        // Configurar el MediaPlayer para reproducir en bucle
         mp_background.isLooping = true
 
-        // Iniciar la reproducción del sonido
-        mp_background.start()
+        //iconos toolbar
         val starIcon: ImageView = view.findViewById(R.id.starIcon)
         val audioIcon: ImageView = view.findViewById(R.id.audioUpIcon)
-        //val controlIcon: ImageView = view.findViewById(R.id.controlIcon)
         val controlIcon: ImageView = binding.root.findViewById(R.id.controlIcon)
         val addIcon: ImageView = view.findViewById(R.id.addIcon)
         val shareIcon: ImageView = view.findViewById(R.id.shareIcon)
 
+        // Iniciar la reproducción del sonido
+        if (sound_background_play) {
+            mp_background.start()
+        }else{
+            audioIcon.setImageResource(R.drawable.ic_volume_off)
+        }
+
         // Escuchas componentes toolbar
         starIcon.setOnClickListener {
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                // Restaura la escala original después de la animación
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-
-                // Abre la URL en un navegador web
-                val url = "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(intent)
-            }.start()
+            starIcon_handle(it)
         }
-
         audioIcon.setOnClickListener {
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                sound_background_play = !mp_background.isPlaying
-                if (mp_background.isPlaying) {
-                    mp_background.pause()
-                    audioIcon.setImageResource(R.drawable.ic_volume_off)
-                } else {
-                    mp_background.start()
-                    audioIcon.setImageResource(R.drawable.ic_volume_up)
-                }
-            }.start()
+            audioIcon_handle(it, audioIcon)
         }
-
         controlIcon.setOnClickListener {
-            /*it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                Toast.makeText(getActivity(),"Click en control",Toast.LENGTH_SHORT).show();
-            }.start()*/
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-
-                // Navegar de regreso a HomePicobotellaFragment
-                navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
-            }.start()
+            controlIcon_handle(it)
         }
 
         addIcon.setOnClickListener {
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-                startActivity(Intent(this.context, ChallengesActivity::class.java))
-
-            }.start()
+            addIcon_handle(it)
         }
 
         shareIcon.setOnClickListener {
-            it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
-                it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
-
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, "App pico botella\nSolo los valientes lo juegan !!\nhttps://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es")
-                    type = "text/plain"
-                }
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
-
-            }.start()
+            shareIcon_handle(it)
         }
 
         return view
     }
+    private fun starIcon_handle(it: View) {
+        it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            // Restaura la escala original después de la animación
+            it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+
+            // Abre la URL en un navegador web
+            val url =
+                "https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }.start()
+    }
+
+    private fun audioIcon_handle(it: View, audioIcon: ImageView) {
+        it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+            sound_background_play = !mp_background.isPlaying
+            if (mp_background.isPlaying) {
+                mp_background.pause()
+                audioIcon.setImageResource(R.drawable.ic_volume_off)
+            } else {
+                mp_background.start()
+                audioIcon.setImageResource(R.drawable.ic_volume_up)
+            }
+        }.start()
+    }
+
+
+
+    private fun controlIcon_handle(it: View) {
+        it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+
+            // Navegar de regreso a HomePicobotellaFragment
+            navController.navigate(R.id.action_homePicobotellaFragment2_to_intruccionesFragment)
+        }.start()
+    }
+    private fun addIcon_handle(it: View) {
+        it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+            startActivity(Intent(this.context, ChallengesActivity::class.java))
+
+        }.start()
+    }
+    private fun shareIcon_handle(it: View) {
+        it.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).withEndAction {
+            it.animate().scaleX(1f).scaleY(1f).setDuration(200).start()
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "App pico botella\nSolo los valientes lo juegan !!\nhttps://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
+                )
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
+        }.start()
+    }
+
+
 
     private fun rotarImagen(botella: ImageView) {
         gifButton.visibility = View.GONE
@@ -202,20 +223,21 @@ class HomePicobotellaFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (sound_background_play){
+        if (sound_background_play) {
             mp_background.start()
         }
-        if (sound_bottle_play){
+        if (sound_bottle_play) {
             mp_spinning_bottle.start()
         }
     }
+
     override fun onStop() {
         super.onStop()
 
-        if (sound_background_play){
+        if (sound_background_play) {
             mp_background.pause()
         }
-        if (sound_bottle_play){
+        if (sound_bottle_play) {
             mp_spinning_bottle.pause()
         }
 

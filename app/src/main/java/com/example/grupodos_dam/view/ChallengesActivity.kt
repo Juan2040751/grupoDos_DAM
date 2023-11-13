@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.ImageView
 import com.example.grupodos_dam.R
 import androidx.databinding.DataBindingUtil
 import com.example.grupodos_dam.databinding.ActivityChallengesBinding
@@ -22,7 +23,9 @@ class ChallengesActivity : AppCompatActivity() {
             )
         }
         binding = DataBindingUtil.setContentView(this,R.layout.activity_challenges)
-
+        findViewById<ImageView>(R.id.backButton).setOnClickListener {
+            finish()
+        }
         settings()
     }
     private fun settings(){
