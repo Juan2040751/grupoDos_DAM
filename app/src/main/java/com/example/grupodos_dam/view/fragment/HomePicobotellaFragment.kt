@@ -29,15 +29,17 @@ import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomePicobotellaBinding
 import kotlin.random.Random
 import android.os.Build
+import android.util.Log
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 import com.bumptech.glide.Glide
-import com.example.grupodos_dam.webservice.Pokemon
+import com.example.grupodos_dam.model.Pokemon
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.grupodos_dam.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -128,7 +130,7 @@ class HomePicobotellaFragment : Fragment() {
 
         //Para refrescar el reto aleatorio
         challengesViewModel.getRandomChallenge()
-        challengesViewModel.getRandomPokemon()
+        //challengesViewModel.getRandomPokemon() this
 
         return view
     }
@@ -194,10 +196,30 @@ class HomePicobotellaFragment : Fragment() {
 
         }.start()
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         permisos()
+
+        obtenerListaPokemons()
+    }
+
+    private fun obtenerListaPokemons() {
+        challengesViewModel.getPokemons()
+        challengesViewModel.listPokemons.observe(viewLifecycleOwner) { listaPokemons ->
+            // Aquí puedes verificar si la lista de pokemons se está recibiendo correctamente
+            if (listaPokemons.isNotEmpty()) {
+                // Por ejemplo, puedes imprimir el nombre del primer pokemon en la lista
+                val primerPokemon = listaPokemons[3]
+                Log.d("ListaPokemons", "Nombre del primer pokemon: ${primerPokemon.id}")
+
+                // También puedes mostrar la imagen del primer pokemon en un ImageView si tienes la URL de la imagen
+                //Glide.with(requireContext())
+                  //  .load(primerPokemon.img) // Reemplaza "imagenUrl" con el nombre real del atributo en tu modelo de Pokemon
+                    //.into(binding.imgBottle)
+            } else {
+                Log.d("ListaPokemons", "La lista de pokemons está vacía")
+            }
+        }
     }
 
     private fun rotarImagen(botella: ImageView) {
@@ -314,18 +336,10 @@ class HomePicobotellaFragment : Fragment() {
     }
     
     fun showRandomChallengeDialog() {
-
         challengesViewModel.getRandomChallenge()
-        challengesViewModel.getRandomPokemon()
 
         val challenge:Challenge? = challengesViewModel.randomChallenge.value
-
-        val pokemon:Pokemon? = challengesViewModel.randomPokemon.value
-
-        //GlobalScope.launch(Dispatchers.Main) {
-        //    pokemon = ApiUtils.getRandomPokemon()
-        //}
-
+        val listaPokemons: MutableList<Pokemon>? = challengesViewModel.listPokemons.value
 
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_random_challenge)
@@ -333,22 +347,20 @@ class HomePicobotellaFragment : Fragment() {
         dialog.window?.setLayout(1100, 1200)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-
         val tvRandomChallenge = dialog.findViewById<TextView>(R.id.tv_random_challenge)
-        val ivRandomPokemon = dialog.findViewById<ImageView>(R.id.iv_random_pokemon)
         val buttonCerrar = dialog.findViewById<Button>(R.id.btn_close_random_challenge)
-
 
         if (challenge != null) {
             tvRandomChallenge.text = challenge.description
         }
 
-        if (pokemon != null) {
-            Toast.makeText(context, pokemon.name, Toast.LENGTH_SHORT).show()
-            Glide.with(requireActivity()).load(pokemon.img).into(ivRandomPokemon)
-        }
-        else{
-            Toast.makeText(context, "No hay pokemones disponibles", Toast.LENGTH_SHORT).show()
+        if (!listaPokemons.isNullOrEmpty()) {
+            val indexRandomPoke = (0 until listaPokemons.size).random()
+            val pokemon = listaPokemons[indexRandomPoke]
+            Glide.with(requireContext())
+                .load(pokemon.img)
+                .transform(CircleCrop())
+                .into(dialog.findViewById(R.id.ivImagenPokemonApi))
         }
 
         buttonCerrar.setOnClickListener {
@@ -356,7 +368,6 @@ class HomePicobotellaFragment : Fragment() {
             if (sound_background_play) {
                 mp_background.start()
             }
-
         }
 
         dialog.setCanceledOnTouchOutside(false)
@@ -364,3 +375,21 @@ class HomePicobotellaFragment : Fragment() {
     }
 
 }
+
+
+
+/*
+private fun observerViewModel(){
+    observerListProduct()
+}
+
+private fun observerListProduct() {
+
+    inventoryViewModel.getProducts()
+    inventoryViewModel.listProducts.observe(viewLifecycleOwner){ lista ->
+
+        val product = lista[2]
+        Glide.with(binding.root.context).load(product.image).into(binding.ivImagenApi)
+        binding.tvTitleProduct.text = product.title
+    }
+}*/
