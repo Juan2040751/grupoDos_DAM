@@ -74,13 +74,7 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
             //findNavController().navigate(R.id.action_homeChallengesFragment_to_addChallengeFragment)
             showAddChallengeDialog(navController)
         }
-
-
-
-        //binding.challengesBack.setOnClickListener{
-            //findNavController().navigate(R.id.action_homeChallengesFragment_to_homePicobotellaFragment2)
-            //findNavController().popBackStack()
-        //}
+        setupToolbar()
     }
 
     private fun setupToolbar() {
@@ -194,9 +188,18 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
             var result = false
 
             // Update the challenge using the ChallengesViewModel
-            updateChallenge(challenge.id, updatedChallenge)
+            result = updateChallenge(challenge.id, updatedChallenge)
+
+            if(result){
+                Toast.makeText(context,"Reto actualizado correctamente!", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,"Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+            }
 
             dialog.dismiss()
+
+            observerViewModel(navController)
         }
 
         dialog.setCanceledOnTouchOutside(false)
@@ -206,7 +209,6 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
     private fun updateChallenge(id: Int, description: String): Boolean {
         val challenge = Challenge(id = id, description = description)
         challengesViewModel.updateChallenge(challenge)
-        //findNavController().popBackStack()
         return true;
     }
 
