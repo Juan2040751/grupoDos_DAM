@@ -27,7 +27,7 @@ import com.example.grupodos_dam.view.viewholder.ChallengesViewHolder
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 import androidx.appcompat.app.AppCompatActivity
 
-class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeListener {
+class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeListener, ChallengesViewHolder.DeleteChallengeListener {
     private lateinit var binding: FragmentHomeChallengesBinding
     private val challengesViewModel: ChallengesViewModel by viewModels()
     override fun onCreateView(
@@ -58,7 +58,7 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
             val recycler = binding.recyclerview
             val layoutManager = LinearLayoutManager(context)
             recycler.layoutManager = layoutManager
-            val adapter = ChallengesAdapter(listaChallenges, navController, this)
+            val adapter = ChallengesAdapter(listaChallenges, navController, this, this)
             recycler.adapter = adapter
             adapter.notifyDataSetChanged()
         }
@@ -67,6 +67,10 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
 
     override fun onEditChallengeClick(challenge: Challenge) {
         showUpdateChallengeDialog(challenge, findNavController())
+    }
+
+    override fun onDeleteChallengeClick(challenge: Challenge) {
+        showDeleteChallengeDialog(challenge, findNavController())
     }
 
     private fun settings(navController: NavController) {
@@ -158,7 +162,7 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
         //findNavController().popBackStack()
         return true;
     }
-
+    //Editar Retos
     private fun showUpdateChallengeDialog(challenge: Challenge, navController: NavController) {
         val dialog = Dialog(binding.root.context)
         dialog.setContentView(R.layout.dialog_update_challenge)
@@ -213,6 +217,57 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
         return true;
     }
 
+    //Eliminar Retos
+    private fun showDeleteChallengeDialog(challenge: Challenge, navController: NavController) {
+        val dialog = Dialog(binding.root.context)
+        dialog.setContentView(R.layout.dialog_delete_challenge)
 
+        val editTextChallenge = dialog.findViewById<EditText>(R.id.delete_text_challenge)
+        val buttonNo = dialog.findViewById<Button>(R.id.delete_challenge_button_no)
+        val buttonSi = dialog.findViewById<Button>(R.id.delete_challenge_button_si)
+
+        editTextChallenge.setText(challenge.description)
+
+        editTextChallenge.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                buttonSi.isEnabled = !s.isNullOrBlank()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        buttonNo.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        buttonSi.setOnClickListener {
+
+            var result = false
+
+            // Update the challenge using the ChallengesViewModel
+            result = deleteChallenge(challenge.id, challenge.description)
+
+            if(result){
+                Toast.makeText(context,"Reto eliminado correctamente!", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,"Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+            }
+
+            dialog.dismiss()
+
+            observerViewModel(navController)
+        }
+
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+    private fun deleteChallenge(id: Int, description: String): Boolean {
+        val challenge = Challenge(id = id, description = description)
+        challengesViewModel.deleteChallenge(challenge)
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@
     <string name="edit_reto">Editar Reto</string>
     <string name="desc_reto">Descripción Reto</string>
     <string name="save_reto">Guardar Reto</string>
+    <string name="delete_reto">¿Desea eliminar el siguiente reto?:</string>
     <string name="tituloInstrucciones">Reglas del juego</string>
     <string name="tituloInstrucciones1">¿Cómo se juega?</string>
     <string name="tituloInstrucciones2">¿Quién gana?</string>

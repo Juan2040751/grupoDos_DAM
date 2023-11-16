@@ -9,7 +9,7 @@ import com.example.grupodos_dam.databinding.ItemChallengeBinding
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.view.fragment.HomeChallengesFragment
 
-class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavController, private val editChallengeListener: EditChallengeListener):RecyclerView.ViewHolder(binding.root){
+class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavController, private val editChallengeListener: EditChallengeListener, private val deleteChallengeListener: DeleteChallengeListener):RecyclerView.ViewHolder(binding.root){
     val bindingItem = binding
     val navController = navController
 
@@ -23,11 +23,18 @@ class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavCon
         bindingItem.ivEditChallenge.setOnClickListener {
             editChallengeListener.onEditChallengeClick(challenge)
         }
+        bindingItem.ivDelete.setOnClickListener {
+            deleteChallengeListener.onDeleteChallengeClick(challenge)
+        }
 
         bindingItem.cvChallenges.startAnimation(AnimationUtils.loadAnimation(bindingItem.cvChallenges.context,R.anim.scale_challenge))
     }
     interface EditChallengeListener {
         fun onEditChallengeClick(challenge: Challenge)
+    }
+
+    interface DeleteChallengeListener {
+        fun onDeleteChallengeClick(challenge: Challenge)
     }
 
 }
