@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.ItemChallengeBinding
 import com.example.grupodos_dam.model.Challenge
+import com.example.grupodos_dam.view.fragment.HomeChallengesFragment
 
-class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavController):RecyclerView.ViewHolder(binding.root){
+class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavController, private val editChallengeListener: EditChallengeListener):RecyclerView.ViewHolder(binding.root){
     val bindingItem = binding
     val navController = navController
 
@@ -19,6 +20,14 @@ class ChallengesViewHolder (binding: ItemChallengeBinding, navController: NavCon
             bundle.putSerializable("clave",challenge)
             //navController.navigate(R.id.action_homeChallengesFragment_to_EditChallengeFragment,bundle)
         }
+        bindingItem.ivEditChallenge.setOnClickListener {
+            editChallengeListener.onEditChallengeClick(challenge)
+        }
+
         bindingItem.cvChallenges.startAnimation(AnimationUtils.loadAnimation(bindingItem.cvChallenges.context,R.anim.scale_challenge))
     }
+    interface EditChallengeListener {
+        fun onEditChallengeClick(challenge: Challenge)
+    }
+
 }

@@ -23,10 +23,11 @@ import com.example.grupodos_dam.R
 import com.example.grupodos_dam.databinding.FragmentHomeChallengesBinding
 import com.example.grupodos_dam.model.Challenge
 import com.example.grupodos_dam.view.adapter.ChallengesAdapter
+import com.example.grupodos_dam.view.viewholder.ChallengesViewHolder
 import com.example.grupodos_dam.viewmodel.ChallengesViewModel
 import androidx.appcompat.app.AppCompatActivity
 
-class HomeChallengesFragment : Fragment() {
+class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeListener {
     private lateinit var binding: FragmentHomeChallengesBinding
     private val challengesViewModel: ChallengesViewModel by viewModels()
     override fun onCreateView(
@@ -57,11 +58,15 @@ class HomeChallengesFragment : Fragment() {
             val recycler = binding.recyclerview
             val layoutManager = LinearLayoutManager(context)
             recycler.layoutManager = layoutManager
-            val adapter = ChallengesAdapter(listaChallenges, navController)
+            val adapter = ChallengesAdapter(listaChallenges, navController, this)
             recycler.adapter = adapter
             adapter.notifyDataSetChanged()
         }
 
+    }
+
+    override fun onEditChallengeClick(challenge: Challenge) {
+        showUpdateChallengeDialog(challenge, findNavController())
     }
 
     private fun settings(navController: NavController) {
@@ -69,13 +74,7 @@ class HomeChallengesFragment : Fragment() {
             //findNavController().navigate(R.id.action_homeChallengesFragment_to_addChallengeFragment)
             showAddChallengeDialog(navController)
         }
-
         setupToolbar()
-
-        //binding.challengesBack.setOnClickListener{
-            //findNavController().navigate(R.id.action_homeChallengesFragment_to_homePicobotellaFragment2)
-            //findNavController().popBackStack()
-        //}
     }
 
     private fun setupToolbar() {
@@ -159,6 +158,61 @@ class HomeChallengesFragment : Fragment() {
         //findNavController().popBackStack()
         return true;
     }
+
+    private fun showUpdateChallengeDialog(challenge: Challenge, navController: NavController) {
+        val dialog = Dialog(binding.root.context)
+        dialog.setContentView(R.layout.dialog_update_challenge)
+
+        val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
+        val buttonCancel = dialog.findViewById<Button>(R.id.edit_challenge_button_cancel)
+        val buttonEdit = dialog.findViewById<Button>(R.id.edit_challenge_button_edit)
+
+        editTextChallenge.setText(challenge.description)
+
+        editTextChallenge.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                buttonEdit.isEnabled = !s.isNullOrBlank()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        buttonEdit.setOnClickListener {
+            val updatedChallenge = editTextChallenge.text.toString()
+
+            var result = false
+
+            // Update the challenge using the ChallengesViewModel
+            result = updateChallenge(challenge.id, updatedChallenge)
+
+            if(result){
+                Toast.makeText(context,"Reto actualizado correctamente!", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,"Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+            }
+
+            dialog.dismiss()
+
+            observerViewModel(navController)
+        }
+
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+
+    private fun updateChallenge(id: Int, description: String): Boolean {
+        val challenge = Challenge(id = id, description = description)
+        challengesViewModel.updateChallenge(challenge)
+        return true;
+    }
+
 
 
 }
