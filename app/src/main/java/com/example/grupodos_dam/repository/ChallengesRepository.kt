@@ -6,11 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import com.example.grupodos_dam.data.ChallengesDB
 import com.example.grupodos_dam.data.ChallengesDao
 import com.example.grupodos_dam.model.Challenge
+import com.example.grupodos_dam.model.Pokemon
+import com.example.grupodos_dam.webservice.ApiService
+import com.example.grupodos_dam.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ChallengesRepository (val context: Context){
     private var challengesDao: ChallengesDao = ChallengesDB.getDatabase(context).challengesDao()
+    private var apiService: ApiService = ApiUtils.getApiService()
      suspend fun saveChallenge(challenge: Challenge){
         withContext(Dispatchers.IO){
             challengesDao.saveChallenge(challenge)
@@ -43,6 +47,17 @@ class ChallengesRepository (val context: Context){
         }
 
         return MutableLiveData(randomChallenge)
+    }
 
+    suspend fun getPokemons(): List<Pokemon> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getPokemons()
+                response.pokemon
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
     }
 }
