@@ -7,17 +7,17 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/edit_challenge_title"
-        android:layout_width="wrap_content"
+        android:id="@+id/delete_challenge_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/edit_reto"
+        android:text="@string/delete_reto"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"/>
 
     <EditText
-        android:id="@+id/edit_text_challenge"
+        android:id="@+id/delete_text_challenge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -28,27 +28,27 @@
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/edit_challenge_button_cancel"
-            android:layout_width="wrap_content"
+            android:id="@+id/delete_challenge_button_no"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/orange"
-            android:text="Cancelar"
-            android:textColor="@android:color/background_light" />
+            android:backgroundTint="@color/white"
+            android:text="NO"
+            android:textColor="@color/orange" />
 
         <Button
-            android:id="@+id/edit_challenge_button_edit"
-            android:layout_width="wrap_content"
+            android:id="@+id/delete_challenge_button_si"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/orange"
-            android:text="Guardar"
-            android:textColor="@android:color/background_light"/>
+            android:backgroundTint="@color/white"
+            android:text="SI"
+            android:textColor="@color/orange"/>
     </LinearLayout>
 </LinearLayout>
