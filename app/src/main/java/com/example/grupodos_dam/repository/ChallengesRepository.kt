@@ -47,17 +47,16 @@ class ChallengesRepository (val context: Context){
         }
 
         return MutableLiveData(randomChallenge)
-
     }
 
-    suspend fun getPokemons(): MutableList<Pokemon> {
+    suspend fun getPokemons(): List<Pokemon> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getPokemons()
-                response
+                response.pokemon
             } catch (e: Exception) {
                 e.printStackTrace()
-                mutableListOf()
+                emptyList()
             }
         }
     }
