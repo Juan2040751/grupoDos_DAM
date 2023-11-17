@@ -166,6 +166,7 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
     private fun showUpdateChallengeDialog(challenge: Challenge, navController: NavController) {
         val dialog = Dialog(binding.root.context)
         dialog.setContentView(R.layout.dialog_update_challenge)
+        dialog.window?.setLayout(1000, 740)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.edit_text_challenge)
         val buttonCancel = dialog.findViewById<Button>(R.id.edit_challenge_button_cancel)
@@ -221,6 +222,7 @@ class HomeChallengesFragment : Fragment(), ChallengesViewHolder.EditChallengeLis
     private fun showDeleteChallengeDialog(challenge: Challenge, navController: NavController) {
         val dialog = Dialog(binding.root.context)
         dialog.setContentView(R.layout.dialog_delete_challenge)
+        dialog.window?.setLayout(1000, 800)
 
         val editTextChallenge = dialog.findViewById<EditText>(R.id.delete_text_challenge)
         val buttonNo = dialog.findViewById<Button>(R.id.delete_challenge_button_no)
