@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">grupoDos_DAM</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splash">pico botella</string>
+    <string name="home">Presióname</string>
+    <string name="countdown"></string>
+    <string name="botella">imagen botella</string>
+    <string name="app_name">Pico Botella</string>
+    <string name="tituloRetos">Retos</string>
+    <string name="add_reto">Agregar Reto</string>
+    <string name="edit_reto">Editar Reto</string>
+    <string name="desc_reto">Descripción Reto</string>
+    <string name="save_reto">Guardar Reto</string>
+    <string name="delete_reto">¿Desea eliminar el siguiente reto?:</string>
+    <string name="tituloInstrucciones">Reglas del juego</string>
+    <string name="tituloInstrucciones1">¿Cómo se juega?</string>
+    <string name="tituloInstrucciones2">¿Quién gana?</string>
+    <string name="descripcionInstrucciones1">Los jugadores forman un círculo y en el centro
+colocan el dispositivo móvil, luego tocan el botón parpadeante para girar la botella.El jugador que señale la
+botella debe cumplir el reto que lanza la app, de lo contrario abandona el juego.</string>
+    <string name="descripcionInstrucciones2">Gana el último jugador que no abandone el juego.</string>
 </resources>
