@@ -10,7 +10,7 @@ import kotlinx.coroutines.*
 import pl.droidsonroids.gif.GifImageView
 
 class SplashActivity : AppCompatActivity() {
-    private val splashTimeOut: Long = 1000 // 5 segundos
+    private val splashTimeOut: Long = 5000 // 5 segundos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
